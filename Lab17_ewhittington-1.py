@@ -1,10 +1,12 @@
 import requests
 from operator import itemgetter
+
 '''
 Refactoring and Catching Errors of Existing Script
 Ender Whittington
 5/10/2025
 '''
+
 # Make an API call and store the response.
 url = 'https://hacker-news.firebaseio.com/v0/topstories.json'
 r = requests.get(url)
@@ -13,6 +15,7 @@ print(f"Status code: {r.status_code}")
 # Process information about each submission.
 submission_ids = r.json()
 submission_dicts = []
+
 for submission_id in submission_ids[:30]:
     # Make a separate API call for each submission.
     url= f"https://hacker-news.firebaseio.com/v0/item/{submission_id}.json"
@@ -20,7 +23,7 @@ for submission_id in submission_ids[:30]:
     print(f"id: {submission_id}\tstatus: {r.status_code}")
     response_dict = r.json()
 
-    # Build a dictionary from each article. 
+    # Build a dictionary from each article. Catches any potential KeyError.
     try:
         submission_dict = {
             'title': response_dict['title'],
